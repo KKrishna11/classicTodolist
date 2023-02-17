@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO LIST</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div><h1 class="text-bg-dark text-center my-5">TODO LIST</h1></div>
+    <!--  TITLE  -->
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label text-center mx-5"
+        >TITLE</label
+      >
+
+      <input
+        type="text"
+        class="form-control w-25 .text-center mx-5"
+        id="title"
+        placeholder="title"
+      />
+    </div>
+
+    <!-- description -->
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label mx-5"
+        >Description</label
+      >
+
+      <textarea class="form-control w-50 mx-5" id="desc" rows="3"></textarea>
+    </div>
+    <div>
+      <button
+        type="button"
+        class="btn btn-dark mx-5"
+        id="add"
+      >
+        ADD
+      </button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        id="clear"
+      >
+        Clear
+      </button>
+    </div>
+    <!--  table  -->
+    <table class="table my-5">
+      <thead>
+        <tr>
+          <th scope="col">SR.no</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">DELETE</th>
+        </tr>
+      </thead>
+      <tbody id="tablebody">
+        <tr>
+          <th scope="row">1</th>
+          <td>mark</td>
+          <td>no work</td>
+          <td><button class="btn btn-sm btn-primary"> Delete</button>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <script>
+        titleInput=document.getElementById('title').value
+        descriptionInput=document.getElementById('desc').value
+        function add(){
+        titleInput=document.getElementById('title').value
+        descriptionInput=document.getElementById('desc').value
+        newele=document.getElementsByTagName('tbody')
+
+        para=document.createElement('th')
+        para.innerText=" 2 "
+        newele[0].appendChild(para)
+        }
+        function clearbtn(){
+        titleInput=document.getElementById('title').value=''
+        descriptionInput=document.getElementById('desc').value=''
+        }
+  
+  
+    </script> -->
+    <script>
+
+      const titleInput = document.querySelector('#title')
+      const descInput = document.querySelector('#desc')
+      const addBtn = document.querySelector('button#add')
+      const table = document.querySelector('#tablebody')
+
+      const todos = JSON.parse(localStorage.getItem('todos')) || []
+      updateUi()
+      
+      function onAddBtnClicked() {
+        const title = titleInput.value
+        const description = descInput.value
+
+        if (! title &&  ! description) return
+
+        const newTodo = {
+          title,
+          description,
+          srNo: todos.length
+        }
+        todos.push(newTodo)
+        localStorage.setItem('todos', JSON.stringify(todos))
+        titleInput.value = ''
+        descInput.value = ''
+        updateUi()
+      }
+
+      function updateUi() {
+        table.innerHTML = ''
+        for (const todo of todos) {
+          const todoElement = `
+          <tr>
+            <th scope="row">${todo.srNo}</th>
+            <td>${todo.title}</td>
+            <td>${todo.description}</td>
+            <td><button class="btn btn-sm btn-primary"> Delete</button>
+          </tr>
+          `
+          table.innerHTML += todoElement
+        }
+      }
+      
+      addBtn.addEventListener('click', onAddBtnClicked)
+
+
+    </script> 
+  </body>
+</html>
